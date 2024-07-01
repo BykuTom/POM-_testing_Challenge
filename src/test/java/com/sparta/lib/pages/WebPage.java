@@ -27,5 +27,5 @@ public abstract class WebPage {
     public void waitFor(int timeoutInSeconds) throws InterruptedException {
         Thread.sleep(timeoutInSeconds * 1000);
     }
-    
+
 }
