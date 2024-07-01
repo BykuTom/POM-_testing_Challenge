@@ -1,26 +1,19 @@
-Feature: User Login
+Feature: Adding Products to cart
 
-  As a registered user
-  I want to log in to the application
-  So that I can access my personalized dashboard and use the application’s features
+As a user I need to be able to add products to the cart so I can save them for later purchase
 
-Scenario: Successful login with valid credentials
-Given the user is on the Login page
-When the user enters a valid username and password
-And clicks the login button
-Then the user should be redirected to the Product page
+Scenario: Adding products to cart as a standard user
 
+Given I am logged in as a [USER_TYPE]
+When I click "add to cart" button for the products [PRODUCT_NAME_LIST]
+Then the buttons text switches to "Remove"
+And the cart icon count becomes [NUMBER_OF_PRODUCTS]
+And the products [PRODUCT_NAME_LIST] appear on the cart page
 
-  Scenario: Unsuccessful login with invalid credentials
-    Given the user is on the Login page
-    When the user enters an invalid username or password
-    And clicks the login button
-    Then the user should see an error message "Epic sadface: Username and password do not match any user in this service"
-    And the user should remain on the Login page
+Scenario: Removing products from the cart
 
-  Scenario: Unsuccessful login with only password entered
-    Given the user is on the Login page
-    When the user leaves the username field empty and enters a valid password
-    And clicks the login button
-    Then the user should see an error message "Epic sadface: Username is required"
-    And the user should remain on the Login page
+Given I am logged in as a [USER_TYPE]
+And the products [PRODUCT_NAME_LIST] are in the cart
+When I click the remove button for [REMOVED_PRODUCTS]
+Then [REMOVED_PRODUCTS] are no longer present in cart
+And the cart icon count becomes [NUMBER_OF_PRODUCTS]
