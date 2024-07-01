@@ -6,9 +6,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public interface StepDefable {
 
-    ChromeDriverService service = null;
+
     String DRIVER_LOCATION = "src/test/resources/chromedriver.exe";
-    WebDriver webDriver = null;
+
 
     default ChromeOptions getChromeOptions(){
         ChromeOptions options = new ChromeOptions();
