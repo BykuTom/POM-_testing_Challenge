@@ -13,7 +13,7 @@ public interface StepDefable {
     default ChromeOptions getChromeOptions(){
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         options.addArguments("--remote-allow-origins=*");
         return options;
     }

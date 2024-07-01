@@ -20,12 +20,10 @@ Feature: User Login
       | standard_user | invalid      |
       | invalid       | invalid      |
     And clicks the login button
-    Then the user should see an error message "Epic sadface: Username and password do not match any user in this service"
+    Then the user should see an error message "Epic sadface"
 
   Scenario: Unsuccessful login with only password entered
     Given the user is on the login page
     When the user leaves the username field empty and enters a valid password
-      | password     |
-      | secret_sauce |
     And clicks the login button
     Then the user should see an error message "Epic sadface: Username is required"

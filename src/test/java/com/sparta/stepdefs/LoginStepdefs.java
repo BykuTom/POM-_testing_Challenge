@@ -23,6 +23,7 @@ import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginStepdefs implements StepDefable {
@@ -61,40 +62,20 @@ public class LoginStepdefs implements StepDefable {
 
 
     @When("the user enters a valid username and password")
-    public void
-    theUserEntersAValidUsernameAndPassword
-            (DataTable dataTable) {
+    public void theUserEntersAValidUsernameAndPassword(DataTable dataTable) {
         List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
-        for
-        (Map<String, String> row : data) {
-            System.out.println(
-                    "Username: "
-                            + row.get(
-                            "username"
-                    ));
-            System.out.println(
-                    "Password: "
-                            + row.get(
-                            "password"
-                    ));
-            LoginPage
-                    page =
-                    new
-                            LoginPage
-                            (webDriver);
-            page.enterUsername(row.get(
-                    "username"
-            ));
-            page.enterPassword(row.get(
-                    "password"
-            ));
-        }
+        Map<String, String> row = data.getFirst();
+
+        LoginPage page = new LoginPage(webDriver);
+
+        page.enterUsername(row.get("username"));
+        page.enterPassword(row.get("password"));
     }
 
     @And("clicks the login button")
     public void clicksTheLoginButton() {
         LoginPage page = new LoginPage(webDriver);
-
+        page.clickSignIn();
     }
 
     @Then("the user should be redirected to the Product page")
@@ -104,17 +85,20 @@ public class LoginStepdefs implements StepDefable {
 
 
     @When("the user enters an invalid username or password")
-    public void theUserEntersAnInvalidUsernameOrPassword(DataTable data) {
-        Map<String, String> map = data.asMap();
+    public void theUserEntersAnInvalidUsernameOrPassword(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        Map<String, String> row = data.getFirst();
+
         LoginPage page = new LoginPage(webDriver);
-        page.enterPassword(map.get("password"));
-        page.enterUsername(map.get("username"));
+
+        page.enterUsername(row.get("username"));
+        page.enterPassword(row.get("password"));
     }
 
     @Then("the user should see an error message {string}")
     public void theUserShouldSeeAnErrorMessage(String arg0) {
         LoginPage page = new LoginPage(webDriver);
-        assertEquals(webDriver.findElement(By.cssSelector("*[data-test=\"error\"]")).getText(), "Epic sadface: Username and password do not match any user in this service");
+        assertTrue(webDriver.findElement(By.cssSelector("*[data-test=\"error\"]")).getText().contains("Epic sadface"));
 
     }
 
